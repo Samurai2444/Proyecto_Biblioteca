@@ -1,0 +1,93 @@
+#Completa este dockerfile con lo se se te pide en los 
+#comentarios y en el enunciado del examen
+
+################################
+#Escribe aquí tu nombre completo
+#Samuel Reche Sanmartin
+################################
+
+services:
+  #servicio del front en react
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: DockerfileReact_SRS
+    volumes:
+      #ruta del front de react#:/app
+      - ./frontend:/app
+      - /app/node_modules # Evita sobreescribir node_modules del contenedor
+    #enlaza un archivo con las variables de entorno necesarias para react
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      #debe esperar a que tanto el back como la BD estén listas
+      - backend
+      - mysql
+    networks:
+      - recu_srs
+
+  #servicio del back en symfony
+  backend:
+    build:
+      context: ./backend
+      dockerfile: DockerfileSymfony_SRS
+    volumes:
+      #ruta del back de symfony#:/app
+      - ./backend:/app
+    depends_on:
+      #debe esperar a que la BD esté lista
+      - mysql
+    command: ["sh", "-c", "composer install && composer show doctrine/dbal && php -S 0.0.0.0:8000 -t public"]
+    networks:
+      - recu_srs
+
+  #servicio de la BD
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - ./.bdSRS
+    volumes:
+      #enlaza el archivo con los datos de inicio de la BD#:/docker-entrypoint-initdb.d/init.sql
+      #define el volumen indicado para la BD#:/var/lib/mysql
+      - ./mysql/datosIniciales.sql:/docker-entrypoint-initdb.d/init.sql
+      -  copiaBD_srs:/var/lib/mysql
+    networks:
+      - recu_srs
+
+  #servicio de phpmyadmin#
+  gestor_srs:
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - ./.bdSRS
+      - ./.adminSRS
+    depends_on:
+      #depende de que la BD esté lista#
+      - mysql
+    networks:
+      - recu_srs
+
+  #servicio del proxy inverso con nginx
+  srs_proxyinverso:
+    build:
+      context: ./srs_proxyinverso
+      dockerfile: DockerfileNginx_SRS
+    ports:
+      - "80:80" #si tienes problemas con el puerto 80 modifica el puerto externo aquí
+      - "443:443"
+    volumes:
+      #Ruta a tus certificados#:/etc/nginx/ssl_INI
+      - ./srs_proxyinverso/ssl_SRS:/etc/nginx/ssl_SRS
+    depends_on:
+      #debe esperar a que todos los demas servicios estén listos
+      - srs_react
+      - backend
+    networks:
+      - recu_srs
+networks:
+  recu_srs:
+   driver: bridge
+volumes:
+  copiaBD_srs:
+
+
+
