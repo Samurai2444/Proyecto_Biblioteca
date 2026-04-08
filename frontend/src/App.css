@@ -182,3 +182,39 @@
     border-right-color: var(--border);
   }
 }
+
+.biblioteca-app {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.biblioteca-app h1 {
+  margin-bottom: 0.5rem;
+}
+
+.biblioteca-app .hint {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+
+.biblioteca-app .error {
+  color: #c62828;
+}
+
+.biblioteca-app .meta {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.biblioteca-app .lista-libros {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.biblioteca-app .lista-libros li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border, #ddd);
+}

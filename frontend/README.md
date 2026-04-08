@@ -1,18 +1,28 @@
-# React + Vite
+# Frontend — React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interfaz de la biblioteca social. Consume la API Symfony a través del prefijo `/api/`.
 
-Currently, two official plugins are available:
+## Desarrollo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+- Con **solo Vite** en el puerto 5173, las peticiones a `/api/*` se reenvían a `http://127.0.0.1:8000` sin el prefijo `/api` (ver `vite.config.js`). El backend Symfony debe estar en marcha (por ejemplo en el puerto 8000 del compose).
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Con **Docker** (Nginx en el puerto 80), abre http://localhost: el mismo código usa rutas `/api/...` y el proxy Nginx las enruta al backend.
 
-Note: This will impact Vite dev & build performances.
+## Build producción
 
-## Expanding the ESLint configuration
+```bash
+npm run build
+npm run preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estructura relevante
+
+- `src/App.jsx` — Listado del catálogo (`GET /api/libros`).
+- `vite.config.js` — `server.proxy` para desarrollo local sin Nginx.
+
+Despliegue completo: ver `docker/README.md` en la raíz del monorepo.
