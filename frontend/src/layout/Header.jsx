@@ -6,7 +6,11 @@ const Header = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <h1 className="text-xl font-bold cursor-pointer">📚 BibliotecApp</h1>
+            <a href="/book">
+              <h1 className="text-xl font-bold cursor-pointer">
+                📚 BibliotecApp
+              </h1>
+            </a>
 
             <nav className="hidden md:flex gap-4 text-sm">
               <a href="/book" className="text-gray-600 hover:text-black">
@@ -15,9 +19,9 @@ const Header = () => {
               <a href="/user" className="text-gray-600 hover:text-black">
                 Mi biblioteca
               </a>
-              <a href="/lectura" className="text-gray-600 hover:text-black">
+              {/* <a href="/lectura" className="text-gray-600 hover:text-black">
                 Lectura
-              </a>
+              </a> */}
             </nav>
           </div>
 

@@ -21,7 +21,7 @@ const BookList = () => {
             </select>
           </div>
         </div>
-
+        <a href="/book/1">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden cursor-pointer">
             <img src="cover.jpg" className="w-full h-48 object-cover" />
@@ -45,6 +45,7 @@ const BookList = () => {
             </div>
           </div>
         </div>
+        </a>
       </div>
     </>
   );
